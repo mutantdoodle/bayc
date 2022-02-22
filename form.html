@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> Ethereum Calculator </title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css.css">
+</head>
+<body class="bg">
+ 
+  <div class="jumbotron">
+    <div class="ethDiv"><h2  id="price" class="title01"></h2></div>
+    <div class="logoWrap">
+    <div class="logo"><div class="logoPic"></div></div>
+    </div>
+
+    <form>
+
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="hidden" value="2596.86" class="form-control" name="price" >
+      </div>
+
+      <div class="form-group">
+        <label for="quantity">
+        YOU PAY
+          <span class="label label-primary quantity-label">1 ETH</span>
+        </label>
+        <input type="text" class="form-control" name="quantity" value="1" min="1" max="500" step="1">
+      </div>
+ 
+    </form>
+ 
+    <div class="text-right text-giant total"></div>
+ 
+  </div>
+  <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+      <script id="rendered-js" >
+function ethFresh() {
+  $.getJSON('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD', function (data) {
+    console.log(data);
+    Object.keys(data).map(function (i) {
+      console.log(i, data[i]);
+      document.getElementById('price').innerText = "1 ETH = " + data[i] + " " + i;
+      document.getElementById('timestamp').innerText = new Date();
+      return null;
+    });
+  });
+}
+
+var x = window.setInterval(ethFresh, 30);
+
+//# sourceURL=pen.js
+    </script>
+<style>
+  body {
+      background: url(bg.png);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 662px;
+    background-repeat: no-repeat;
+  }
+  
+  
+  body, .jumbotron { 
+      padding: 30px; 
+      color: #a9c5e6;
+      background-color: #15243c;
+      
+  }
+  
+  .text-giant { 
+      font-size: 40px; 
+  }
+  
+  .title01 {
+      text-align: center;
+  }
+  
+  .ethDiv {
+     
+  }
+  
+  .logoWrap {
+      width: 100%;
+      height: 200px;
+      
+          
+  }
+  
+  .logo {
+      width: 132px;
+    height: 153px;
+    margin: 0 auto;
+    
+  }
+  
+  .logoPic {
+      width: 100%;
+    height: 100%;
+    background-image: url(ethLogo.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+  }
+  
+  </style>
+  
+
+ 
+<script type="text/javascript">
+  // Grabbing it from the DOM aka Document aka HTML. Yadidimean?
+    const priceInput = document.querySelector('[name=price]');
+    const quantityInput = document.querySelector('[name=quantity]');
+    const total = document.querySelector('.total');
+    const quantityLabel = document.querySelector('.quantity-label');
+  
+  
+  // Create the functions that we'll need   
+    function calculatePieCost() {
+      const price     = priceInput.value;
+      const quantity  = quantityInput.value;
+      const cost     = price * quantity;
+  
+      total.innerText = 'You get $' + cost.toFixed(2);
+  
+    }
+  // updateQuantityLabel
+    function updateQuantityLabel() {
+      const quantity  = quantityInput.value;
+      quantityLabel.innerText = quantity;
+    }
+  
+  
+  // First Run on that Bitch.
+    calculatePieCost();
+  
+  // Add Event listeners to hear the User Inputs     
+    priceInput.addEventListener('keyup', calculatePieCost);
+    quantityInput.addEventListener('input', calculatePieCost);
+    quantityInput.addEventListener('input', updateQuantityLabel);
+  
+  </script>
+</body>
+</html>
